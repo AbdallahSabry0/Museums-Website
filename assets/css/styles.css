@@ -2093,7 +2093,14 @@ select:focus {
 .btn-book-now:focus,
 .btn-book-now:active,
 .navbar-toggler:focus,
-.navbar-toggler:active {
+.navbar-toggler:active,
+/* Nav links and pill buttons */
+.navbar .nav-link:focus,
+.navbar .nav-link:focus-visible,
+.nav-link-auth:focus,
+.nav-link-auth:focus-visible,
+.category-filter .btn:focus,
+.category-filter .btn:focus-visible {
     outline: none !important;
     box-shadow: none !important;
 }
