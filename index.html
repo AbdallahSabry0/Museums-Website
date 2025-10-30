@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover authentic Egyptian experiences. Book unique tours, activities, and cultural experiences with local hosts.">
+    <title>StayEase - Discover Authentic Egyptian Tourism</title>
+    
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <div class="brand-logo">
+                    <i class="bi bi-compass-fill"></i>
+                </div>
+                <span class="brand-text ms-2">StayEase</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#experiences">Experiences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#destinations">Destinations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#becomeHostModal">Become a Host</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Egypt</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item me-2">
+                        <a class="nav-link-auth" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-signup" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">
+                            Sign Up
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-10 mx-auto text-center hero-content">
+                    <h1 class="hero-title animate-fade-in">
+                        Discover Egypt, Your Way
+                    </h1>
+                    <p class="hero-subtitle animate-fade-in-delay">
+                        From ancient wonders to hidden gems — explore, stay, and connect.
+                    </p>
+                    
+                    <!-- Search Bar -->
+                    <div class="search-card-hero animate-slide-up">
+                        <form class="search-form-hero" id="searchForm">
+                            <div class="row g-0 align-items-end">
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="search-field">
+                                        <label class="search-label">Destination</label>
+                                        <div class="search-input-wrapper">
+                                            <i class="bi bi-geo-alt search-icon-sm"></i>
+                                            <input type="text" class="form-control-hero" placeholder="Where to?" id="locationInput">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="search-field">
+                                        <label class="search-label">Check-in</label>
+                                        <div class="search-input-wrapper">
+                                            <i class="bi bi-calendar3 search-icon-sm"></i>
+                                            <input type="date" class="form-control-hero" id="dateInput">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="search-field">
+                                        <label class="search-label">Type</label>
+                                        <div class="search-input-wrapper">
+                                            <select class="form-control-hero" id="categorySelect">
+                                                <option value="">Select type</option>
+                                                <option value="tours">Historical Tours</option>
+                                                <option value="adventure">Adventure</option>
+                                                <option value="cultural">Cultural</option>
+                                                <option value="food">Food & Dining</option>
+                                                <option value="water">Water Activities</option>
+                                                <option value="desert">Desert Safaris</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <button type="submit" class="btn-search-hero w-100">
+                                        <i class="bi bi-search me-2"></i>Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <i class="bi bi-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Top Places to Explore Section -->
+    <section id="destinations" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="places-title">Top Places to Explore</h2>
+                <p class="places-subtitle">Discover Egypt's most captivating destinations</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Cairo -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="place-card">
+                        <img src="assets/photos/cairo.png" alt="Cairo Pyramids" class="place-image" loading="lazy">
+                        <div class="place-overlay"></div>
+                        <div class="place-content">
+                            <h3 class="place-name">Cairo</h3>
+                            <p class="place-description">History & Culture</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Luxor -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="place-card">
+                        <img src="assets/photos/luxor.png" alt="Luxor Temple" class="place-image" loading="lazy">
+                        <div class="place-overlay"></div>
+                        <div class="place-content">
+                            <h3 class="place-name">Luxor</h3>
+                            <p class="place-description">Ancient Wonders</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dahab -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="place-card">
+                        <img src="assets/photos/dahab.png" alt="Dahab Red Sea" class="place-image" loading="lazy">
+                        <div class="place-overlay"></div>
+                        <div class="place-content">
+                            <h3 class="place-name">Dahab</h3>
+                            <p class="place-description">Relax by the Sea</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aswan -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="place-card">
+                        <img src="assets/photos/aswan.png" alt="Aswan Nile" class="place-image" loading="lazy">
+                        <div class="place-overlay"></div>
+                        <div class="place-content">
+                            <h3 class="place-name">Aswan</h3>
+                            <p class="place-description">Nile Adventures</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Siwa -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="place-card">
+                        <img src="assets/photos/siwa.png" alt="Siwa Oasis" class="place-image" loading="lazy">
+                        <div class="place-overlay"></div>
+                        <div class="place-content">
+                            <h3 class="place-name">Siwa</h3>
+                            <p class="place-description">Desert Escape</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alexandria -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="place-card">
+                        <img src="assets/photos/alexandria.png" alt="Alexandria" class="place-image" loading="lazy">
+                        <div class="place-overlay"></div>
+                        <div class="place-content">
+                            <h3 class="place-name">Alexandria</h3>
+                            <p class="place-description">Mediterranean Charm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Travel with StayEase Section -->
+    <section class="why-section py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="why-title">Why Travel with StayEase?</h2>
+                <p class="why-subtitle">Experience Egypt like never before</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Feature 1: Authentic Local Stays -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="why-card">
+                        <div class="why-icon-wrapper">
+                            <div class="why-icon bg-teal">
+                                <i class="bi bi-house-heart"></i>
+                            </div>
+                        </div>
+                        <h4 class="why-card-title">Authentic Local Stays</h4>
+                        <p class="why-card-text">Experience genuine Egyptian hospitality and unique accommodations</p>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Beyond Guidebooks -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="why-card">
+                        <div class="why-icon-wrapper">
+                            <div class="why-icon bg-coral">
+                                <i class="bi bi-map"></i>
+                            </div>
+                        </div>
+                        <h4 class="why-card-title">Beyond Guidebooks</h4>
+                        <p class="why-card-text">Discover hidden gems and secret spots only locals know</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Friendly Hosts -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="why-card">
+                        <div class="why-icon-wrapper">
+                            <div class="why-icon bg-teal">
+                                <i class="bi bi-chat-heart"></i>
+                            </div>
+                        </div>
+                        <h4 class="why-card-title">Friendly Hosts</h4>
+                        <p class="why-card-text">Connect with passionate locals offering personalized experiences</p>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Safe & Supported -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="why-card">
+                        <div class="why-icon-wrapper">
+                            <div class="why-icon bg-coral">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                        </div>
+                        <h4 class="why-card-title">Safe & Supported</h4>
+                        <p class="why-card-text">Secure bookings with 24/7 customer support throughout your journey</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Unforgettable Egyptian Experiences Section -->
+    <section id="experiences" class="unforgettable-section py-5 bg-white">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="unforgettable-title">Unforgettable Egyptian Experiences</h2>
+                <p class="unforgettable-subtitle">Create memories that will last a lifetime</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Experience 1: Hot Air Balloon -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="experience-featured-card">
+                        <div class="experience-featured-image">
+                            <img src="assets/photos/Hot Air Balloon over Luxor.png" alt="Hot Air Balloon over Luxor" loading="lazy">
+                        </div>
+                        <div class="experience-featured-content">
+                            <h4 class="experience-featured-title">Hot Air Balloon over Luxor</h4>
+                            <p class="experience-featured-description">Soar above ancient temples and the Nile at sunrise</p>
+                            <div class="experience-featured-footer">
+                                <span class="experience-featured-price">$120</span>
+                                <button class="btn-book-now" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience 2: Red Sea Diving -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="experience-featured-card">
+                        <div class="experience-featured-image">
+                            <img src="assets/photos/Red Sea Diving in Dahab.png" alt="Red Sea Diving in Dahab" loading="lazy">
+                        </div>
+                        <div class="experience-featured-content">
+                            <h4 class="experience-featured-title">Red Sea Diving in Dahab</h4>
+                            <p class="experience-featured-description">Explore vibrant coral reefs and marine life</p>
+                            <div class="experience-featured-footer">
+                                <span class="experience-featured-price">$85</span>
+                                <button class="btn-book-now" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience 3: Bedouin Night -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="experience-featured-card">
+                        <div class="experience-featured-image">
+                            <img src="assets/photos/Bedouin Night in Sinai.png" alt="Bedouin Night in Sinai" loading="lazy">
+                        </div>
+                        <div class="experience-featured-content">
+                            <h4 class="experience-featured-title">Bedouin Night in Sinai</h4>
+                            <p class="experience-featured-description">Sleep under the stars in authentic desert camp</p>
+                            <div class="experience-featured-footer">
+                                <span class="experience-featured-price">$95</span>
+                                <button class="btn-book-now" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Travelers Say Section -->
+    <section class="testimonials-section py-5 bg-light">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="testimonials-title">What Travelers Say</h2>
+                <p class="testimonials-subtitle">Real stories from real adventurers</p>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Testimonial 1: Sarah Johnson -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card-new">
+                        <div class="testimonial-header">
+                            <img src="https://i.pravatar.cc/60?img=1" alt="Sarah Johnson" class="testimonial-avatar" loading="lazy">
+                            <div class="testimonial-info">
+                                <h5 class="testimonial-name">Sarah Johnson</h5>
+                                <p class="testimonial-location">United States</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">"StayEase showed me Egypt beyond the tourist traps. The local hosts made all the difference!"</p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2: Marco Silva -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card-new">
+                        <div class="testimonial-header">
+                            <img src="https://i.pravatar.cc/60?img=12" alt="Marco Silva" class="testimonial-avatar" loading="lazy">
+                            <div class="testimonial-info">
+                                <h5 class="testimonial-name">Marco Silva</h5>
+                                <p class="testimonial-location">Brazil</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">"The diving experience in Dahab was incredible. Perfectly organized and safe!"</p>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3: Emma Thompson -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card-new">
+                        <div class="testimonial-header">
+                            <img src="https://i.pravatar.cc/60?img=5" alt="Emma Thompson" class="testimonial-avatar" loading="lazy">
+                            <div class="testimonial-info">
+                                <h5 class="testimonial-name">Emma Thompson</h5>
+                                <p class="testimonial-location">United Kingdom</p>
+                            </div>
+                        </div>
+                        <div class="testimonial-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">"From Cairo to Aswan, every moment was magical. Egypt truly stole my heart!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-dual-section py-5 bg-white">
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- CTA Card 1: Ready to explore Egypt -->
+                <div class="col-lg-6">
+                    <div class="cta-image-card">
+                        <img src="assets/photos/luxor.png" alt="Tourists exploring Egypt" class="cta-card-image" loading="lazy">
+                        <div class="cta-card-overlay"></div>
+                        <div class="cta-card-content">
+                            <h3 class="cta-card-title">Ready to explore Egypt?</h3>
+                            <p class="cta-card-text">Discover authentic experiences and create unforgettable memories</p>
+                            <a href="#experiences" class="btn-cta btn-cta-teal">
+                                Find an Experience
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Card 2: Want to host travelers -->
+                <div class="col-lg-6">
+                    <div class="cta-image-card">
+                        <img src="assets/photos/aswan.png" alt="Host welcoming travelers" class="cta-card-image" loading="lazy">
+                        <div class="cta-card-overlay"></div>
+                        <div class="cta-card-content">
+                            <h3 class="cta-card-title">Want to host travelers?</h3>
+                            <p class="cta-card-text">Share your passion for Egypt and earn by hosting amazing experiences</p>
+                            <a href="#" class="btn-cta btn-cta-coral" data-bs-toggle="modal" data-bs-target="#becomeHostModal">
+                                Become a Host
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Footer -->
+    <footer class="footer-new">
+        <div class="container">
+            <div class="row">
+                <!-- Brand Column -->
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <div class="footer-brand mb-4">
+                        <div class="footer-logo">
+                            <i class="bi bi-compass-fill"></i>
+                        </div>
+                        <span class="footer-brand-text">StayEase</span>
+                    </div>
+                    <p class="footer-description">
+                        Discover Egypt like never before with authentic local experiences and trusted hosts.
+                    </p>
+                </div>
+                
+                <!-- About StayEase Column -->
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-heading">About StayEase</h5>
+                    <ul class="footer-links">
+                        <li><a href="#how-it-works">How it works</a></li>
+                        <li><a href="#about">Our story</a></li>
+                        <li><a href="#safety">Safety</a></li>
+                        <li><a href="#community">Community</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Explore Egypt Column -->
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-heading">Explore Egypt</h5>
+                    <ul class="footer-links">
+                        <li><a href="#destinations">Cairo</a></li>
+                        <li><a href="#destinations">Luxor</a></li>
+                        <li><a href="#destinations">Aswan</a></li>
+                        <li><a href="#destinations">Red Sea</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Help & Support Column -->
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                    <h5 class="footer-heading">Help & Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <p class="footer-copyright mb-0">
+                            © 2025 StayEase – Explore Egypt, Feel at Home.
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="footer-social">
+                            <a href="#" class="footer-social-link" aria-label="Facebook">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" class="footer-social-link" aria-label="Instagram">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="footer-social-link" aria-label="TikTok">
+                                <i class="bi bi-tiktok"></i>
+                            </a>
+                            <a href="#" class="footer-social-link" aria-label="Settings">
+                                <i class="bi bi-gear"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="btn-back-to-top" id="backToTop">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!--
+     Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="loginModalLabel">Welcome Back</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
+                        <div class="text-center">
+                            <a href="#" class="text-decoration-none small">Forgot password?</a>
+                        </div>
+                    </form>
+                    <hr class="my-4">
+                    <p class="text-center text-muted mb-0 small">
+                        Don't have an account? 
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign up</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal-->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="signupModalLabel">Create Your Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-4">
+                    <form id="signupForm">
+                        <div class="mb-3">
+                            <label for="signupName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="signupName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="signupEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="signupPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signupPasswordConfirm" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="signupPasswordConfirm" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label small" for="agreeTerms">
+                                I agree to the Terms of Service and Privacy Policy
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mb-3">Sign Up</button>
+                    </form>
+                    <hr class="my-4">
+                    <p class="text-center text-muted mb-0 small">
+                        Already have an account? 
+                        <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Become Host Modal -->
+    <div class="modal fade" id="becomeHostModal" tabindex="-1" aria-labelledby="becomeHostModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="becomeHostModalLabel">Become a Host</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-4">
+                    <form id="becomeHostForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="hostName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="hostName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="hostEmail" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="hostEmail" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="hostPhone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="hostPhone" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="hostLocation" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="hostLocation" placeholder="Cairo, Egypt" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="hostExperience" class="form-label">What experiences do you want to offer?</label>
+                                <textarea class="form-control" id="hostExperience" rows="3" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="hostBackground" class="form-label">Tell us about your background</label>
+                                <textarea class="form-control" id="hostBackground" rows="3" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="hostAgreeTerms" required>
+                                    <label class="form-check-label small" for="hostAgreeTerms">
+                                        I agree to undergo verification and comply with host guidelines
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-success w-100">Submit Application</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold" id="bookingModalLabel">Book Your Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 pb-4">
+                    <div class="alert alert-info">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Please log in or sign up to complete your booking.
+                    </div>
+                    <form id="bookingForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="bookingDate" class="form-label">Select Date</label>
+                                <input type="date" class="form-control" id="bookingDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookingTime" class="form-label">Preferred Time</label>
+                                <select class="form-select" id="bookingTime" required>
+                                    <option value="">Choose time...</option>
+                                    <option value="morning">Morning (8:00 AM - 12:00 PM)</option>
+                                    <option value="afternoon">Afternoon (12:00 PM - 4:00 PM)</option>
+                                    <option value="evening">Evening (4:00 PM - 8:00 PM)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookingGuests" class="form-label">Number of Guests</label>
+                                <input type="number" class="form-control" id="bookingGuests" min="1" value="1" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Total Price</label>
+                                <input type="text" class="form-control" value="$49.00" readonly>
+                            </div>
+                            <div class="col-12">
+                                <label for="bookingNotes" class="form-label">Special Requests (Optional)</label>
+                                <textarea class="form-control" id="bookingNotes" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Proceed to Payment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3.3 JS Bundle -->
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
