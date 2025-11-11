@@ -1,0 +1,477 @@
+﻿<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Browse stays and experiences across Egypt. Filter by price, property type, amenities and more.">
+      <title>
+        StayEase - Stays & Experiences
+      </title>
+      <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="assets/css/styles.css">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <div class="brand-logo">
+              <i class="bi bi-compass-fill">
+              </i>
+            </div>
+            <span class="brand-text ms-2">
+              StayEase
+            </span>
+          </a>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+            </span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto align-items-center">
+              <li class="nav-item">
+                <a class="nav-link" href="stays.html">
+                  Experiences
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#destinations">
+                  Destinations
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html?modal=host">
+                  Become a Host
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="index.html#about">
+                  About Egypt
+                </a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto align-items-center">
+              <li class="nav-item me-2">
+                <a class="nav-link-auth" href="index.html?modal=login">
+                  Login
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-signup" href="index.html?modal=signup">
+                  Sign Up
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section class="pt-5" style="margin-top: 72px;">
+        <div class="container">
+          <div class="row g-3 align-items-end">
+            <div class="col-12">
+              <div class="stays-search-sticky">
+                <form class="search-pill" action="stays.html" method="GET">
+                  <div class="row g-0 align-items-center">
+                    <div class="col-xl-4 col-md-4">
+                      <div class="pill-item">
+                        <div class="pill-label">
+                          Where
+                        </div>
+                        <div class="search-input-wrapper">
+                          <i class="bi bi-geo-alt search-icon-sm">
+                          </i>
+                          <input name="where" type="text" class="form-control-hero" placeholder="Where to?" value="">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                      <div class="pill-item">
+                        <div class="pill-label">
+                          Check out
+                        </div>
+                        <div class="search-input-wrapper">
+                          <i class="bi bi-calendar3 search-icon-sm">
+                          </i>
+                          <input name="checkout" type="date" class="form-control-hero">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                      <div class="pill-item pill-item--no-sep">
+                        <div class="pill-label">
+                          Guests
+                        </div>
+                        <div class="search-input-wrapper">
+                          <i class="bi bi-people search-icon-sm">
+                          </i>
+                          <select name="guests" class="form-control-hero">
+                            <option value="2">
+                              2 guests
+                            </option>
+                            <option value="1">
+                              1 guest
+                            </option>
+                            <option value="3">
+                              3 guests
+                            </option>
+                            <option value="4">
+                              4 guests
+                            </option>
+                            <option value="5">
+                              5+ guests
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xl-1 col-md-6 d-flex justify-content-end">
+                      <button type="submit" class="pill-icon-btn" aria-label="Search">
+                        <i class="bi bi-search">
+                        </i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-12">
+              <h1 class="h3 mb-1">
+                Stays in Egypt
+              </h1>
+              <p class="text-muted mb-0">
+                Over 300 homes · Flexible dates · 2 guests
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="py-4">
+        <div class="container">
+          <div class="row g-4">
+            <aside class="col-lg-3">
+              <div class="card border-0 shadow-sm sticky-lg-top" style="top:100px;">
+                <div class="card-body">
+                  <h5 class="mb-3">
+                    Filters
+                  </h5>
+                  <div class="mb-4">
+                    <div class="d-flex justify-content-between">
+                      <span class="fw-semibold">
+                        Price range
+                      </span>
+                      <a id="clearFilters" href="#" class="text-decoration-none small">
+                        Clear all
+                      </a>
+                    </div>
+                    <div class="row g-2 mt-2">
+                      <div class="col-6">
+                        <input id="priceMin" type="text" class="form-control" placeholder="$50">
+                      </div>
+                      <div class="col-6">
+                        <input id="priceMax" type="text" class="form-control" placeholder="$500">
+                      </div>
+                    </div>
+                    <input id="priceRange" type="range" class="form-range mt-3" min="50" max="500" value="200">
+                  </div>
+                  <div class="mb-4">
+                    <div class="fw-semibold mb-2">
+                      Property type
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="entirePlace">
+                      <label class="form-check-label" for="entirePlace">
+                        Entire place
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="privateRoom" checked>
+                      <label class="form-check-label" for="privateRoom">
+                        Private room
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="sharedRoom">
+                      <label class="form-check-label" for="sharedRoom">
+                        Shared room
+                      </label>
+                    </div>
+                  </div>
+                  <div class="mb-4">
+                    <div class="fw-semibold mb-2">
+                      Amenities
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="wifi" checked>
+                      <label class="form-check-label" for="wifi">
+                        WiFi
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="kitchen">
+                      <label class="form-check-label" for="kitchen">
+                        Kitchen
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="ac">
+                      <label class="form-check-label" for="ac">
+                        Air conditioning
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="parking">
+                      <label class="form-check-label" for="parking">
+                        Parking
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="pool">
+                      <label class="form-check-label" for="pool">
+                        Pool
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="fw-semibold mb-2">
+                      Guest rating
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="rating" id="any" checked>
+                      <label class="form-check-label" for="any">
+                        Any
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="rating" id="four">
+                      <label class="form-check-label" for="four">
+                        4.0+
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="rating" id="fourFive">
+                      <label class="form-check-label" for="fourFive">
+                        4.5+
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+            <div class="col-lg-9">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="btn-group" role="group" aria-label="View">
+                  <button id="viewGrid" type="button" class="btn btn-outline-secondary active" data-view="grid">
+                    <i class="bi bi-grid-3x3-gap me-2">
+                    </i>
+                    Grid
+                  </button>
+                  <button id="viewList" type="button" class="btn btn-outline-secondary" data-view="list">
+                    <i class="bi bi-list-ul me-2">
+                    </i>
+                    List
+                  </button>
+                  <button id="viewMap" type="button" class="btn btn-outline-secondary" data-view="map">
+                    <i class="bi bi-map me-2">
+                    </i>
+                    Map
+                  </button>
+                </div>
+                <div class="d-flex align-items-center">
+                  <span class="me-2 text-muted small">
+                    Sort by:
+                  </span>
+                  <select id="sortBy" class="form-select form-select-sm" style="width:auto;">
+                    <option value="recommended" selected>
+                      Recommended
+                    </option>
+                    <option value="price-asc">
+                      Price: Low to High
+                    </option>
+                    <option value="price-desc">
+                      Price: High to Low
+                    </option>
+                    <option value="rating-desc">
+                      Rating
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div id="listingsGrid" class="row g-4">
+              </div>
+              <div id="listingsList" class="list-group" style="display:none;">
+              </div>
+              <div id="mapView" class="border rounded-3 p-5 text-center bg-light" style="display:none;">
+                <i class="bi bi-geo-alt" style="font-size:3rem;color:#9ca3af;">
+                </i>
+                <h5 class="mt-3 mb-1">
+                  Map view
+                </h5>
+                <p class="text-muted mb-0">
+                  Add coordinates later to show interactive map. For now, listings are shown in grid/list views.
+                </p>
+              </div>
+              <div class="d-flex justify-content-center gap-2 mt-4">
+                <button class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-chevron-left">
+                  </i>
+                </button>
+                <button class="btn btn-teal btn-sm">
+                  1
+                </button>
+                <button class="btn btn-outline-secondary btn-sm">
+                  2
+                </button>
+                <button class="btn btn-outline-secondary btn-sm">
+                  3
+                </button>
+                <button class="btn btn-outline-secondary btn-sm">
+                  4
+                </button>
+                <button class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-chevron-right">
+                  </i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="footer-new">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <div class="footer-brand mb-4">
+                <div class="footer-logo">
+                  <i class="bi bi-compass-fill">
+                  </i>
+                </div>
+                <span class="footer-brand-text">
+                  StayEase
+                </span>
+              </div>
+              <p class="footer-description">
+                Discover Egypt like never before with authentic local experiences and trusted hosts.
+              </p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <h5 class="footer-heading">
+                About StayEase
+              </h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="index.html#how-it-works">
+                    How it works
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#about">
+                    Our story
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#safety">
+                    Safety
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#community">
+                    Community
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <h5 class="footer-heading">
+                Explore Egypt
+              </h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="index.html#destinations">
+                    Cairo
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#destinations">
+                    Luxor
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#destinations">
+                    Aswan
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#destinations">
+                    Red Sea
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <h5 class="footer-heading">
+                Help & Support
+              </h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="#help">
+                    Help Center
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#terms">
+                    Terms of Service
+                  </a>
+                </li>
+                <li>
+                  <a href="#privacy">
+                    Privacy Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="row align-items-center">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="footer-copyright mb-0">
+                  © 2025 StayEase – Explore Egypt, Feel at Home.
+                </p>
+              </div>
+              <div class="col-md-6">
+                <div class="footer-social">
+                  <a href="#" class="footer-social-link" aria-label="Facebook">
+                    <i class="bi bi-facebook">
+                    </i>
+                  </a>
+                  <a href="#" class="footer-social-link" aria-label="Instagram">
+                    <i class="bi bi-instagram">
+                    </i>
+                  </a>
+                  <a href="#" class="footer-social-link" aria-label="TikTok">
+                    <i class="bi bi-tiktok">
+                    </i>
+                  </a>
+                  <a href="#" class="footer-social-link" aria-label="Settings">
+                    <i class="bi bi-gear">
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <script src="assets/js/bootstrap.bundle.min.js">
+      </script>
+      <script src="assets/js/main.js">
+      </script>
+    </body>
+  </html>
