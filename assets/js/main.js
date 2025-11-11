@@ -37,6 +37,9 @@ function initNavbar() {
     );
   }
   );
+  // Ensure right-side auth UI exists on every page, then keep it current
+  ensureAuthUiSlots();
+  renderNavUserArea();
 }
 // ==========================================
 // HERO ANIMATIONS & SCROLL INDICATOR
@@ -213,17 +216,67 @@ function initBackToTop() {
   }
 }
 // ==========================================
-// FORM HANDLERS (merged into less repetitive blocks)
+// FORM HANDLERS
 // ==========================================
 function initForms() {
   [ {
     form:'loginForm', btnText:'Login', cb:()=> {
-      showNotification('success','Welcome back! You are now logged in.');
+      const identifier = (document.getElementById('loginEmail')?.value || '').trim();
+      const pass = (document.getElementById('loginPassword')?.value || '').trim();
+      const fallbackName = identifier?.split('@')?.[0] || 'Traveler';
+      const current = loadStore(STORAGE_KEYS.user, {}) || {};
+      saveStore(STORAGE_KEYS.user, { ...current, name: current.name || fallbackName, email: identifier || current.email || '', password: pass || current.password || '', role: current.role || 'Traveler' });
+      setAuth(true);
+      showNotification('success','Logged in.');
+      const pending = loadStore(STORAGE_KEYS.redirect, null);
+      if (pending?.to === 'dashboard') {
+        localStorage.removeItem(STORAGE_KEYS.redirect);
+        setTimeout(()=> window.location.href='dashboard.html', 400);
+      }
     }
   }
   , {
     form:'signupForm', btnText:'Sign Up', cb:()=> {
-      showNotification('success','Account created successfully! Welcome aboard!');
+      const firstName = (document.getElementById('signupFirstName')?.value || '').trim();
+      const lastName = (document.getElementById('signupLastName')?.value || '').trim();
+      const fullNameFallback = (document.getElementById('signupName')?.value || '').trim();
+      const name = (firstName || lastName) ? [firstName,lastName].filter(Boolean).join(' ') : (fullNameFallback || 'Traveler');
+      const email = (document.getElementById('signupEmail')?.value || '').trim();
+      const phone = (document.getElementById('signupPhone')?.value || '').trim();
+      const nationality = (document.getElementById('signupNationality')?.value || '').trim();
+      const dateOfBirth = (document.getElementById('signupDOB')?.value || '').trim();
+      const gender = (document.getElementById('signupGender')?.value || '').trim();
+      const pw = (document.getElementById('signupPassword')?.value || '').trim();
+      const pwc = (document.getElementById('signupPasswordConfirm')?.value || '').trim();
+      const roleInput = document.getElementById('signupRole');
+      const role = (roleInput?.value || 'Traveler').trim() || 'Traveler';
+      // No client-side validation; backend will validate
+      const newUser = {
+        id: 'u-'+Date.now(),
+        name,
+        firstName: firstName || (fullNameFallback.split(' ')[0] || ''),
+        lastName: lastName || (fullNameFallback.split(' ').slice(1).join(' ') || ''),
+        email,
+        password: pw || pwc || '',
+        avatar: 'https://i.pravatar.cc/100?img=13',
+        role,
+        phone,
+        nationality,
+        dateOfBirth,
+        gender,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        registeredAt: new Date().toISOString()
+      };
+      const user = loadStore(STORAGE_KEYS.user, {});
+      saveStore(STORAGE_KEYS.user, { ...user, id:newUser.id, name, email, password: pw, role, avatar: newUser.avatar, firstName:newUser.firstName, lastName:newUser.lastName, phone, nationality, dateOfBirth, gender, createdAt:newUser.createdAt, updatedAt:newUser.updatedAt });
+      showNotification('success','Account created.');
+      setAuth(true);
+      const pending = loadStore(STORAGE_KEYS.redirect, null);
+      if (pending?.to === 'dashboard') {
+        localStorage.removeItem(STORAGE_KEYS.redirect);
+        setTimeout(()=> window.location.href='dashboard.html', 400);
+      }
     }
   }
   , {
@@ -248,16 +301,10 @@ function initForms() {
   ) => {
     const f = document.getElementById(form);
     if (!f) return;
+    // Disable HTML5 validation; backend will validate
+    try{ f.setAttribute('novalidate','novalidate'); }catch(_e){}
     f.addEventListener('submit', function(e) {
       e.preventDefault();
-      if(form==='signupForm') {
-        const p = document.getElementById('signupPassword').value;
-        const pc = document.getElementById('signupPasswordConfirm').value;
-        if(p!==pc) {
-          showNotification('error','Passwords do not match!');
-          return;
-        }
-      }
       const btn = f.querySelector('button[type="submit"]');
       const origText = btn.textContent;
       btn.innerHTML = '<span class="loading"></span> ' + origText+'...';
@@ -288,6 +335,7 @@ function initForms() {
   }
   );
 }
+// demo users export removed
 // ==========================================
 // CAROUSELS
 // ==========================================
@@ -468,7 +516,9 @@ window.showNotification = showNotification;
 function initModalFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const modalParam = params.get('modal');
-  if (!modalParam) return;
+  if (!modalParam) {
+    return;
+  }
   const map = {
     login:'loginModal', signup:'signupModal', host:'becomeHostModal'
   };
@@ -488,103 +538,16 @@ function getQueryParam(key) {
   return url.searchParams.get(key);
 }
 // Local fallback data for file:// usage where fetch is blocked by the browser
-const LOCAL_LISTINGS_FALLBACK = [
-  {
-    "id": "cairo-apartment",
-    "title": "Modern Apartment with View",
-    "location": "Cairo, Egypt",
-    "beds": 2,
-    "baths": 1,
-    "guests": 3,
-    "price": 189,
-    "rating": 4.9,
-    "images": ["assets/photos/cairo.png", "assets/photos/luxor.png", "assets/photos/aswan.png"],
-    "amenities": ["WiFi", "Kitchen", "Air conditioning", "Parking"],
-    "summary": "Bright modern apartment overlooking the Nile and the city skyline."
-  },
-  {
-    "id": "alexandria-studio",
-    "title": "Cozy Studio by the Sea",
-    "location": "Alexandria, Egypt",
-    "beds": 1,
-    "baths": 1,
-    "guests": 2,
-    "price": 125,
-    "rating": 4.7,
-    "images": ["assets/photos/alexandria.png", "assets/photos/dahab.png"],
-    "amenities": ["WiFi", "Kitchen", "Balcony"],
-    "summary": "Charming studio steps from the Mediterranean with a sunny balcony."
-  },
-  {
-    "id": "luxor-loft",
-    "title": "Elegant Loft in Luxor",
-    "location": "Luxor, Egypt",
-    "beds": 3,
-    "baths": 2,
-    "guests": 5,
-    "price": 275,
-    "rating": 4.8,
-    "images": ["assets/photos/luxor.png", "assets/photos/Hot Air Balloon over Luxor.png"],
-    "amenities": ["WiFi", "AC"],
-    "summary": "Stylish loft minutes from ancient temples with rooftop views."
-  },
-  {
-    "id": "aswan-nile-flat",
-    "title": "Nile View Flat",
-    "location": "Aswan, Egypt",
-    "beds": 2,
-    "baths": 1,
-    "guests": 4,
-    "price": 165,
-    "rating": 4.6,
-    "images": ["assets/photos/aswan.png"],
-    "amenities": ["WiFi", "Balcony"],
-    "summary": "Relaxing flat with sweeping Nile views and nearby felucca rides."
-  },
-  {
-    "id": "dahab-penthouse",
-    "title": "Luxury Penthouse with Terrace",
-    "location": "Dahab, Egypt",
-    "beds": 4,
-    "baths": 3,
-    "guests": 7,
-    "price": 450,
-    "rating": 5.0,
-    "images": ["assets/photos/dahab.png", "assets/photos/Red Sea Diving in Dahab.png"],
-    "amenities": ["WiFi", "Pool", "Parking"],
-    "summary": "High-end penthouse with panoramic Red Sea terrace and private pool."
-  },
-  {
-    "id": "siwa-bohemian",
-    "title": "Artistic Bohemian Space",
-    "location": "Siwa Oasis, Egypt",
-    "beds": 1,
-    "baths": 1,
-    "guests": 2,
-    "price": 135,
-    "rating": 4.5,
-    "images": ["assets/photos/siwa.png"],
-    "amenities": ["WiFi", "Kitchen"],
-    "summary": "Cozy boho home near palm groves and salt lakes—perfect for unplugging."
-  }
-];
 async function fetchListings() {
   try {
-    // If opened directly as a file, use the embedded fallback
-    if (location.protocol === 'file:') {
-      return LOCAL_LISTINGS_FALLBACK;
-    }
-    const res = await fetch('assets/data/listings.json', {
-      cache: 'no-cache'
-    }
-    );
-    if (!res.ok) throw new Error('Failed to load listings');
-    return await res.json();
+    // Placeholder: backend should provide listings.
+    // Return empty array when no backend is available.
+    return [];
   }
   catch (e) {
     console.error(e);
-    showNotification('error', 'Unable to load listings right now. Using offline data.');
-    return LOCAL_LISTINGS_FALLBACK;
+    showNotification('error', 'Unable to load listings right now.');
+    return [];
   }
 }
 function cardHtml(listing) {
@@ -622,7 +585,10 @@ async function renderFeaturedOnHome() {
   const grid = document.getElementById('experiencesGridHome');
   if (!grid) return;
   const listings = await fetchListings();
-  // Choose top rated 3 as featured for consistency
+  if (!Array.isArray(listings) || listings.length===0){
+    grid.innerHTML = `<div class="col-12 text-center text-muted">Experiences will appear here once available.</div>`;
+    return;
+  }
   const featured = [...listings].sort((a,b)=>b.rating-a.rating).slice(0,3);
   grid.innerHTML = featured.map(cardHtml).join('');
 }
@@ -774,6 +740,7 @@ async function populatePropertyPage() {
   if (!titleEl) return;
   // not on property page
   const listings = await fetchListings();
+  if (!Array.isArray(listings) || listings.length===0) return;
   const item = listings.find(l => l.id === id) || listings[0];
   // Title and meta
   titleEl.textContent = item.title;
@@ -986,11 +953,6 @@ async function populatePropertyPage() {
       e.preventDefault();
       const ci = ciInput.value;
       const co = coInput.value;
-      if (!ci || !co || new Date(co) <= new Date(ci)) {
-        showNotification('error','Please select valid Check-in and Checkout dates.');
-        validateDatesPresent();
-        return;
-      }
       const guests = (document.getElementById('guests').value || '2').replace(/\D/g,'');
       const url = new URL('booking.html', window.location.origin);
       url.searchParams.set('id', item.id);
@@ -1008,6 +970,7 @@ async function populateBookingPage() {
   // not on booking page
   const id = getQueryParam('id');
   const listings = await fetchListings();
+  if (!Array.isArray(listings) || listings.length===0) return;
   const item = listings.find(l => l.id === id) || listings[0];
   const ci = getQueryParam('checkin');
   const co = getQueryParam('checkout');
@@ -1070,6 +1033,21 @@ async function populateBookingPage() {
   document.getElementById('confirmBtn')?.addEventListener('click', (e) => {
     e.preventDefault();
     showNotification('success', 'Your booking has been confirmed!');
+    // Persist booking and navigate to dashboard
+    const ciVal = getQueryParam('checkin');
+    const coVal = getQueryParam('checkout');
+    const guests = parseInt(getQueryParam('guests')||'2',10);
+    const nights = (ciVal && coVal) ? Math.max(1, Math.ceil((new Date(coVal) - new Date(ciVal)) / (1000*60*60*24))) : 1;
+    const total = (item.price||0) * nights * guests + 150 + Math.round((item.price||0) * nights * guests * 0.2);
+    addBookingAndNotify({
+      id:'b-'+Date.now(),
+      propertyId:item.id,
+      title:item.title,
+      location:item.location,
+      img:item.images?.[0] || 'assets/photos/cairo.png',
+      checkin:ciVal, checkout:coVal, guests, total, status:'confirmed'
+    });
+    setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 600);
   }
   );
 }
@@ -1082,4 +1060,752 @@ function initDataDrivenPages() {
   populatePropertyPage();
   // Populate booking summary if present
   populateBookingPage();
+  // Populate dashboard if present
+  initDashboardPage();
+  // Auth guard for dashboard visibility
+  guardDashboardIfNeeded();
 }
+const STORAGE_KEYS = {
+  user:'stayEase:user',
+  bookings:'stayEase:bookings',
+  notifications:'stayEase:notifs',
+  payments:'stayEase:payments',
+  auth:'stayEase:auth',
+  redirect:'stayEase:redirect'
+};
+function loadStore(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch { return fallback; }
+}
+function saveStore(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+function isLoggedIn() {
+  const a = loadStore(STORAGE_KEYS.auth, {loggedIn:false});
+  if (!a?.loggedIn) return false;
+  const maxAge = 7*24*60*60*1000; // 7 days
+  return Date.now() - (a.at||0) < maxAge;
+}
+function setAuth(loggedIn=true){
+  saveStore(STORAGE_KEYS.auth, {loggedIn, at: Date.now()});
+}
+function clearAuth(){
+  localStorage.removeItem(STORAGE_KEYS.auth);
+}
+function guardDashboardIfNeeded(){
+  const root = document.getElementById('dashboardRoot');
+  if (!root) return;
+  // Always allow access in frontend; backend will enforce auth later
+  root.classList.remove('d-none');
+}
+// Render user avatar pill in navbar and toggle login/signup buttons
+function renderNavUserArea(){
+  const area = document.getElementById('navUserArea');
+  const liLogin = document.getElementById('navLoginItem');
+  const liSignup = document.getElementById('navSignupItem');
+  if (!area && !liLogin && !liSignup) return;
+  const logged = isLoggedIn();
+  if (logged){
+    const user = loadStore(STORAGE_KEYS.user, {name:'Traveler', avatar:''});
+    const avatar = user.avatar || 'https://i.pravatar.cc/100?img=13';
+    if (area) {
+      area.innerHTML = `<button class="nav-user-pill" type="button" data-bs-toggle="offcanvas" data-bs-target="#navUserDrawer" aria-controls="navUserDrawer">
+        <span class="nav-user-burger"><i class="bi bi-list"></i></span>
+        <img id="pillAvatar" src="${avatar}" alt="Profile">
+      </button>`;
+    }
+    if (liLogin) liLogin.style.display = 'none';
+    if (liSignup) liSignup.style.display = 'none';
+    // keep drawer data fresh
+    const name = (user.name||'User');
+    const dn = document.getElementById('drawerName'); if (dn) dn.textContent = name;
+    const da = document.getElementById('drawerAvatar'); if (da) da.src = avatar;
+  } else {
+    if (area) area.innerHTML = '';
+    if (liLogin) liLogin.style.display = '';
+    if (liSignup) liSignup.style.display = '';
+  }
+}
+
+// Create auth UI slots if the current page's navbar doesn't have them
+function ensureAuthUiSlots(){
+  const hasArea = document.getElementById('navUserArea');
+  const hasLogin = document.getElementById('navLoginItem');
+  const hasSignup = document.getElementById('navSignupItem');
+  if (hasArea && hasLogin && hasSignup) return;
+  const rightGroup = document.querySelector('.navbar .navbar-collapse .navbar-nav.ms-auto.align-items-center') ||
+                     document.querySelector('.navbar .navbar-collapse .navbar-nav.ms-auto') ||
+                     document.querySelectorAll('.navbar .navbar-collapse .navbar-nav')?.[1];
+  if (!rightGroup) return;
+  // Avoid duplicates
+  if (!hasLogin){
+    const li = document.createElement('li');
+    li.className = 'nav-item me-2';
+    li.id = 'navLoginItem';
+    li.innerHTML = `<a class="nav-link-auth" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>`;
+    rightGroup.appendChild(li);
+  }
+  if (!hasSignup){
+    const li = document.createElement('li');
+    li.className = 'nav-item';
+    li.id = 'navSignupItem';
+    li.innerHTML = `<a class="btn btn-signup" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a>`;
+    rightGroup.appendChild(li);
+  }
+  if (!hasArea){
+    const li = document.createElement('li');
+    li.className = 'nav-item ms-2';
+    li.id = 'navUserArea';
+    rightGroup.appendChild(li);
+  }
+}
+// global logout for drawer button
+window.logoutUser = function logoutUser(){
+  localStorage.removeItem(STORAGE_KEYS.user);
+  localStorage.removeItem(STORAGE_KEYS.bookings);
+  localStorage.removeItem(STORAGE_KEYS.notifications);
+  localStorage.removeItem(STORAGE_KEYS.payments);
+  clearAuth();
+  showNotification('success','Logged out.');
+  renderNavUserArea();
+  setTimeout(()=> window.location.href='index.html', 400);
+};
+
+// drawer "Account Settings" handler
+document.addEventListener('DOMContentLoaded', ()=>{
+  const link = document.getElementById('drawerOpenSettings');
+  if (link){
+    link.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const modalEl = document.getElementById('settingsModal');
+      if (modalEl && window.bootstrap?.Modal){
+        populateSettingsModal?.();
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+        const tabBtn = document.getElementById('tab-profile');
+        if (tabBtn && window.bootstrap?.Tab){
+          const t = new bootstrap.Tab(tabBtn);
+          t.show();
+        }
+      } else {
+        window.location.href = 'dashboard.html?open=settings';
+      }
+    });
+  }
+  // drawer open payments specifically
+  const linkPayments = document.getElementById('drawerOpenPayments');
+  if (linkPayments){
+    linkPayments.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const modalEl = document.getElementById('settingsModal');
+      if (modalEl && window.bootstrap?.Modal){
+        populateSettingsModal?.();
+        const m = new bootstrap.Modal(modalEl);
+        m.show();
+        const tabBtn = document.getElementById('tab-payments');
+        if (tabBtn && window.bootstrap?.Tab){
+          const t = new bootstrap.Tab(tabBtn);
+          t.show();
+        }
+      } else {
+        window.location.href = 'dashboard.html?open=settings&tab=payments';
+      }
+    });
+  }
+  // when drawer opens, hydrate data
+  const drawer = document.getElementById('navUserDrawer');
+  if (drawer){
+    drawer.addEventListener('show.bs.offcanvas', ()=>{
+      const user = loadStore(STORAGE_KEYS.user, {name:'User', avatar:''});
+      const dn = document.getElementById('drawerName'); if (dn) dn.textContent = user.name||'User';
+      const da = document.getElementById('drawerAvatar'); if (da) da.src = user.avatar || 'https://i.pravatar.cc/80?img=13';
+    });
+  }
+});
+function seedIfEmpty() {
+  // no-op: demo seeds removed
+}
+function addBookingAndNotify(b) {
+  const bookings = loadStore(STORAGE_KEYS.bookings, []);
+  bookings.push(b);
+  saveStore(STORAGE_KEYS.bookings, bookings);
+  const notifs = loadStore(STORAGE_KEYS.notifications, []);
+  notifs.unshift({
+    id:'n-'+Date.now(), type:'success', title:'Booking Confirmed',
+    body:`Your booking at ${b.title} has been confirmed for ${formatDate(b.checkin)} – ${formatDate(b.checkout)}.`,
+    time:'just now'
+  });
+  saveStore(STORAGE_KEYS.notifications, notifs);
+}
+function renderDashboardUpcoming(container, bookings) {
+  const upcoming = bookings.filter(b => b.status!=='past')
+    .sort((a,b)=> new Date(a.checkin)-new Date(b.checkin));
+  if (!upcoming.length) {
+    container.innerHTML = '<div class="text-muted small">No upcoming bookings yet.</div>';
+    return;
+  }
+  container.innerHTML = upcoming.map((b,i)=>`
+    <div class="booking-item d-md-flex align-items-center ${i>0?'mt-3 pt-3 border-top':''}">
+      <img class="booking-image rounded" src="${b.img}" alt="${b.title}" loading="lazy">
+      <div class="flex-grow-1 ms-md-3 mt-3 mt-md-0">
+        <div class="d-flex justify-content-between">
+          <div>
+            <h6 class="mb-1">${b.title}</h6>
+            <div class="text-muted small">
+              <i class="bi bi-geo-alt me-1"></i> ${b.location}
+              <span class="ms-3"><i class="bi bi-calendar3 me-1"></i>${formatDate(b.checkin)} – ${formatDate(b.checkout)}</span>
+              <span class="ms-3"><i class="bi bi-people me-1"></i>${b.guests} Guests</span>
+            </div>
+          </div>
+          <span class="badge status-badge ${b.status==='confirmed'?'success':'warning'} align-self-start">${b.status==='confirmed'?'Confirmed':'Pending'}</span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="fw-semibold fs-6">${formatCurrency(b.total)} <small class="text-muted">/ total</small></div>
+          <div>
+            <a href="property.html?id=${encodeURIComponent(b.propertyId||'')}" class="btn btn-outline-secondary btn-sm me-2">View Details</a>
+            <button class="btn btn-outline-danger btn-sm" data-cancel="${b.id}">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  container.querySelectorAll('[data-cancel]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.getAttribute('data-cancel');
+      const list = loadStore(STORAGE_KEYS.bookings,[]);
+      const i = list.findIndex(x=>x.id===id);
+      if (i>-1) {
+        list.splice(i,1);
+        saveStore(STORAGE_KEYS.bookings,list);
+        showNotification('success','Booking cancelled.');
+        renderDashboard(); // refresh
+      }
+    });
+  });
+}
+function renderDashboardPast(container, bookings) {
+  const past = bookings.filter(b => b.status==='past' || new Date(b.checkout) < new Date());
+  container.innerHTML = past.slice(0,4).map(b=>`
+    <div class="col-md-6">
+      <div class="past-card">
+        <img src="${b.img}" alt="${b.title}">
+        <div class="past-content">
+          <h6 class="mb-1">${b.title}</h6>
+          <div class="text-muted small mb-2">
+            <i class="bi bi-geo-alt me-1"></i> ${b.location} · ${formatDate(b.checkin)} – ${formatDate(b.checkout)}
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted small">No review yet</span>
+            <a href="#" class="btn btn-outline-primary btn-sm">Leave Review</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function renderDashboardNotifs(container, notifs) {
+  container.innerHTML = notifs.slice(0,5).map(n=>`
+    <div class="notif-item">
+      <span class="notif-icon ${n.type==='success'?'success':n.type==='warning'?'warning':'info'}"><i class="bi ${n.type==='success'?'bi-check2-circle':n.type==='warning'?'bi-hourglass-split':'bi-chat-dots'}"></i></span>
+      <div class="ms-3">
+        <div class="fw-semibold">${n.title}</div>
+        <div class="text-muted small">${n.body}</div>
+      </div>
+      <span class="ms-auto text-muted small">${n.time||''}</span>
+    </div>
+  `).join('');
+}
+function renderDashboard() {
+  const up = document.getElementById('dashUpcoming');
+  const past = document.getElementById('dashPast');
+  const notif = document.getElementById('dashNotifs');
+  if (!up && !past && !notif) return; // not on dashboard
+  const bookings = loadStore(STORAGE_KEYS.bookings,[]);
+  const notifs = loadStore(STORAGE_KEYS.notifications,[]);
+  if (up) renderDashboardUpcoming(up, bookings);
+  if (past) renderDashboardPast(past, bookings);
+  if (notif) renderDashboardNotifs(notif, notifs);
+  const nameEl = document.getElementById('dashUserName');
+  const user = loadStore(STORAGE_KEYS.user, {name:'John Smith', role:'Traveler'});
+  if (nameEl) nameEl.textContent = user.name || 'John Smith';
+  const roleEl = document.getElementById('dashUserRole');
+  if (roleEl) roleEl.textContent = user.role || 'Traveler';
+  const welcomeEl = document.getElementById('dashWelcomeName');
+  if (welcomeEl) {
+    const first = (user.name||'John').split(' ')[0];
+    welcomeEl.textContent = first;
+  }
+}
+function initDashboardPage() { renderDashboard(); }
+
+// ==========================================
+// DASHBOARD SIDEBAR INTERACTIONS
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  // deep-link to settings from ?open=settings
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('open') === 'settings') {
+    const modalEl = document.getElementById('settingsModal');
+    if (modalEl && window.bootstrap?.Modal){
+      populateSettingsModal?.();
+      const m = new bootstrap.Modal(modalEl);
+      m.show();
+      const tab = params.get('tab');
+      if (tab && window.bootstrap?.Tab){
+        const btn = document.getElementById(`tab-${tab}`);
+        if (btn){
+          const t = new bootstrap.Tab(btn);
+          t.show();
+        }
+      }
+    }
+  }
+  const menu = document.getElementById('dashMenu');
+  if (!menu) return; // not on dashboard
+  const items = Array.from(menu.querySelectorAll('.list-group-item'));
+  const setActive = (el) => {
+    items.forEach(i=>i.classList.remove('active'));
+    el.classList.add('active');
+  };
+  const scrollToEl = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + window.scrollY - 90,
+      behavior:'smooth'
+    });
+  };
+  menu.addEventListener('click', (e) => {
+    const link = e.target.closest('.list-group-item');
+    if (!link) return;
+    const section = link.getAttribute('data-section');
+    if (!section) return;
+    e.preventDefault();
+    setActive(link);
+    switch(section){
+      case 'top':
+        window.scrollTo({top:0, behavior:'smooth'});
+        break;
+      case 'bookings':
+        scrollToEl('secUpcoming');
+        break;
+      case 'notifications':
+        scrollToEl('secNotifications');
+        break;
+      case 'wishlist':
+        // Navigate to listings with a "wish" view or show a placeholder
+        window.location.href = 'stays.html';
+        break;
+      case 'account':
+        // Open account settings modal
+        seedIfEmpty();
+        populateSettingsModal();
+        const settingsModal = document.getElementById('settingsModal');
+        if (settingsModal && window.bootstrap?.Modal) new bootstrap.Modal(settingsModal).show();
+        break;
+      case 'payments':
+        // Open settings modal focused on Payments tab
+        seedIfEmpty();
+        populateSettingsModal();
+        const mEl = document.getElementById('settingsModal');
+        if (mEl && window.bootstrap?.Modal){
+          const m = new bootstrap.Modal(mEl);
+          m.show();
+          const tabBtn = document.getElementById('tab-payments');
+          if (tabBtn && window.bootstrap?.Tab){
+            const t = new bootstrap.Tab(tabBtn);
+            t.show();
+          }
+        }
+        break;
+    }
+  });
+});
+
+// ==========================================
+// ACCOUNT SETTINGS MODAL LOGIC
+// ==========================================
+function maskCard(num){
+  const clean = String(num).replace(/\D/g,'');
+  return '•••• •••• •••• ' + clean.slice(-4);
+}
+function populateSettingsModal(){
+  const user = loadStore(STORAGE_KEYS.user, {name:'Traveler', email:'', avatar:''});
+  const nameEl = document.getElementById('settingsName');
+  const emailEl = document.getElementById('settingsEmail');
+  const avatarPrev = document.getElementById('settingsAvatarPreview');
+  if (nameEl) nameEl.value = user.name || '';
+  if (emailEl) emailEl.value = user.email || '';
+  if (avatarPrev) avatarPrev.src = user.avatar || avatarPrev.src;
+  // payments list
+  renderPaymentsList();
+}
+function renderPaymentFields(method){
+  const container = document.getElementById('dynamicPaymentFields');
+  if (!container) return;
+  const htmlByMethod = {
+    card: `
+      <div class="row g-2">
+        <div class="col-12">
+          <label class="form-label">Cardholder name</label>
+          <input type="text" id="cardName" class="form-control" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Card number</label>
+          <input type="text" id="cardNumber" class="form-control" inputmode="numeric" pattern="[0-9 ]{12,23}" placeholder="4242 4242 4242 4242" required>
+        </div>
+        <div class="col-6">
+          <label class="form-label">Expiry (MM/YY)</label>
+          <input type="text" id="cardExpiry" class="form-control" placeholder="12/29" required>
+        </div>
+        <div class="col-6">
+          <label class="form-label">CVC</label>
+          <input type="text" id="cardCvc" class="form-control" inputmode="numeric" pattern="\\d{3,4}" placeholder="123" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Brand</label>
+          <select id="cardBrand" class="form-select">
+            <option>Visa</option>
+            <option>Mastercard</option>
+            <option>Amex</option>
+          </select>
+        </div>
+      </div>`,
+    paypal: `
+      <div class="row g-2">
+        <div class="col-12">
+          <label class="form-label">PayPal email</label>
+          <input type="email" id="ppEmail" class="form-control" placeholder="you@example.com" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label">PayPal password</label>
+          <input type="password" id="ppPassword" class="form-control" minlength="6" required>
+        </div>
+        <div class="col-12 text-muted small">We’ll securely link your PayPal for future payments.</div>
+      </div>`,
+    applePay: `
+      <div class="row g-2">
+        <div class="col-12 text-muted small">Authenticate with Apple Pay on your device during checkout. No setup required here.</div>
+      </div>`,
+    googlePay: `
+      <div class="row g-2">
+        <div class="col-12 text-muted small">Authenticate with Google Pay on your device during checkout. No setup required here.</div>
+      </div>`,
+    bank: `
+      <div class="row g-2">
+        <div class="col-12">
+          <label class="form-label">Bank name</label>
+          <input type="text" id="bankName" class="form-control" placeholder="Your Bank" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Account holder</label>
+          <input type="text" id="bankHolder" class="form-control" placeholder="Full name" required>
+        </div>
+        <div class="col-12">
+          <label class="form-label">IBAN / Account number</label>
+          <input type="text" id="bankIban" class="form-control" placeholder="EG12 3456 7890 1234 5678 9012 3456" required>
+        </div>
+        <div class="col-12 text-muted small">We will show transfer instructions with a unique reference on booking.</div>
+      </div>`,
+    cash: `
+      <div class="row g-2">
+        <div class="col-12">
+          <label class="form-label">Contact phone (optional)</label>
+          <input type="tel" id="cashPhone" class="form-control" placeholder="+20 10 1234 5678">
+        </div>
+        <div class="col-12 text-muted small">You’ll pay the host in cash at check-in.</div>
+      </div>`
+  };
+  container.innerHTML = htmlByMethod[method] || '';
+}
+function renderPaymentsList(){
+  const listEl = document.getElementById('paymentsList');
+  if (!listEl) return;
+  const methods = loadStore(STORAGE_KEYS.payments, []);
+  if (!methods.length){
+    listEl.innerHTML = '<div class="text-muted small">No payment methods saved.</div>';
+    return;
+  }
+  const iconFor = (m)=>{
+    if (m.method==='card') return '<i class="bi bi-credit-card-2-front"></i>';
+    if (m.method==='paypal') return '<span class="pay-logo pp">PP</span>';
+    if (m.method==='applePay') return '<span class="pay-logo ap"></span>';
+    if (m.method==='googlePay') return '<span class="pay-logo gp">G</span>';
+    if (m.method==='bank') return '<span class="pay-logo bank"><i class="bi bi-bank2"></i></span>';
+    if (m.method==='cash') return '<span class="pay-logo cash"><i class="bi bi-cash-coin"></i></span>';
+    return '<i class="bi bi-wallet2"></i>';
+  };
+  const titleFor = (m)=>{
+    if (m.method==='card') return `${m.brand} • ${m.last4}`;
+    if (m.method==='paypal') return 'PayPal Account';
+    if (m.method==='applePay') return 'Apple Pay';
+    if (m.method==='googlePay') return 'Google Pay';
+    if (m.method==='bank') return 'Bank Transfer';
+    if (m.method==='cash') return 'Cash on Arrival';
+    return 'Payment Method';
+  };
+  const subFor = (m)=>{
+    if (m.method==='card') return `${m.name} · exp ${m.expiry}`;
+    if (m.method==='paypal') return m.email ? m.email : 'Linked wallet';
+    if (m.method==='applePay' || m.method==='googlePay') return 'Linked wallet';
+    if (m.method==='bank') return m.bankName ? `${m.bankName} · ${m.accountLast4?('••••'+m.accountLast4):''}` : 'Manual transfer';
+    if (m.method==='cash') return 'Pay at property';
+    return '';
+  };
+  listEl.innerHTML = methods.map(c=>`
+    <div class="list-group-item d-flex align-items-center gap-2">
+      <div class="me-2 d-inline-flex align-items-center">${iconFor(c)}</div>
+      <div class="flex-grow-1">
+        <div class="small fw-semibold">${titleFor(c)} ${c.isDefault?'<span class="badge bg-success ms-2">Default</span>':''}</div>
+        <div class="text-muted small">${subFor(c)}</div>
+      </div>
+      <div class="ms-2">
+        ${c.isDefault ? '' : `<button class="btn btn-sm btn-outline-primary" data-set-default="${c.id}">Set default</button>`}
+        <button class="btn btn-sm btn-outline-danger ms-1" data-del-card="${c.id}">Delete</button>
+      </div>
+    </div>
+  `).join('');
+  // bind actions
+  listEl.querySelectorAll('[data-set-default]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.getAttribute('data-set-default');
+      const all = loadStore(STORAGE_KEYS.payments, []);
+      all.forEach(c=>c.isDefault = (c.id===id));
+      saveStore(STORAGE_KEYS.payments, all);
+      showNotification('success','Default payment method updated.');
+      renderPaymentsList();
+    });
+  });
+  listEl.querySelectorAll('[data-del-card]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const id = btn.getAttribute('data-del-card');
+      let all = loadStore(STORAGE_KEYS.payments, []);
+      all = all.filter(c=>c.id!==id);
+      if (all.length && !all.some(c=>c.isDefault)) all[0].isDefault = true;
+      saveStore(STORAGE_KEYS.payments, all);
+      showNotification('success','Payment method removed.');
+      renderPaymentsList();
+    });
+  });
+}
+// Profile form
+document.addEventListener('DOMContentLoaded', ()=>{
+  // helper: render details for advanced methods grid
+  const renderMethodDetails = (method)=>{
+    const wrap = document.getElementById('paymentMethodDetails');
+    if (!wrap) return;
+    const blocks = {
+      paypal: `
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2 gap-2"><span class="pay-logo pp">PP</span><strong>PayPal</strong></div>
+            <div class="row g-2">
+              <div class="col-12">
+                <label class="form-label">PayPal email</label>
+                <input type="email" class="form-control" placeholder="you@example.com">
+              </div>
+              <div class="col-12">
+                <label class="form-label">PayPal password</label>
+                <input type="password" class="form-control" placeholder="••••••••">
+              </div>
+              <div class="col-12 text-muted small">We’ll securely link your PayPal for future payments.</div>
+            </div>
+          </div>
+        </div>`,
+      applePay: `
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2 gap-2"><span class="pay-logo ap"></span><strong>Apple Pay</strong></div>
+            <div class="text-muted small">Authenticate with Apple Pay on your device during checkout. No setup is required here.</div>
+          </div>
+        </div>`,
+      googlePay: `
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2 gap-2"><span class="pay-logo gp">G</span><strong>Google Pay</strong></div>
+            <div class="text-muted small">Authenticate with Google Pay on your device during checkout. No setup is required here.</div>
+          </div>
+        </div>`,
+      bank: `
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2 gap-2"><span class="pay-logo bank"><i class="bi bi-bank2"></i></span><strong>Bank Transfer</strong></div>
+            <div class="row g-2">
+              <div class="col-12">
+                <label class="form-label">Bank name</label>
+                <input type="text" class="form-control" placeholder="Your Bank">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Account holder</label>
+                <input type="text" class="form-control" placeholder="Full name">
+              </div>
+              <div class="col-12">
+                <label class="form-label">IBAN / Account number</label>
+                <input type="text" class="form-control" placeholder="EG12 3456 7890 1234 5678 9012 3456">
+              </div>
+              <div class="col-12 text-muted small">On booking, you’ll receive transfer instructions with a unique reference.</div>
+            </div>
+          </div>
+        </div>`,
+      cash: `
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-2 gap-2"><span class="pay-logo cash"><i class="bi bi-cash-coin"></i></span><strong>Cash on Arrival</strong></div>
+            <div class="row g-2">
+              <div class="col-12">
+                <label class="form-label">Contact phone (optional)</label>
+                <input type="tel" class="form-control" placeholder="+20 10 1234 5678">
+              </div>
+              <div class="col-12 text-muted small">You’ll pay the host in cash at check-in.</div>
+            </div>
+          </div>
+        </div>`
+    };
+    wrap.innerHTML = blocks[method] || '';
+    wrap.scrollIntoView({behavior:'smooth', block:'start'});
+  };
+  const profileForm = document.getElementById('formProfile');
+  if (profileForm){
+    profileForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('settingsName').value.trim();
+      const email = document.getElementById('settingsEmail').value.trim();
+      const user = loadStore(STORAGE_KEYS.user, {});
+      saveStore(STORAGE_KEYS.user, {...user, name, email});
+      document.getElementById('dashUserName') && (document.getElementById('dashUserName').textContent = name);
+      const welcomeEl = document.getElementById('dashWelcomeName');
+      if (welcomeEl) {
+        const first = (name||'').split(' ')[0] || 'Traveler';
+        welcomeEl.textContent = first;
+      }
+      const drawerName = document.getElementById('drawerName');
+      if (drawerName) drawerName.textContent = name || 'User';
+      showNotification('success','Profile updated.');
+    });
+    // avatar upload
+    const avatarInput = document.getElementById('avatarInput');
+    if (avatarInput){
+      avatarInput.addEventListener('change', ()=>{
+        const file = avatarInput.files?.[0];
+        if (!file) return;
+        if (file.size > 2*1024*1024){ showNotification('error','Image larger than 2MB.'); return; }
+        const reader = new FileReader();
+        reader.onload = ()=> {
+          const data = reader.result;
+          const user = loadStore(STORAGE_KEYS.user, {});
+          saveStore(STORAGE_KEYS.user, {...user, avatar:data});
+          const prev = document.getElementById('settingsAvatarPreview');
+          if (prev) prev.src = data;
+          showNotification('success','Profile picture updated.');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+  // security
+  const secForm = document.getElementById('formSecurity');
+  if (secForm){
+    secForm.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const np = (document.getElementById('newPassword').value || '').trim();
+      const user = loadStore(STORAGE_KEYS.user, {});
+      saveStore(STORAGE_KEYS.user, {...user, password: np});
+      showNotification('success','Password updated.');
+      secForm.reset();
+    });
+  }
+  // add payment
+  const addPayForm = document.getElementById('formAddPayment');
+  if (addPayForm){
+    // initialize dynamic fields
+    const methodSel = document.getElementById('paymentMethod');
+    if (methodSel){
+      renderPaymentFields(methodSel.value || 'card');
+      methodSel.addEventListener('change', ()=>{
+        renderPaymentFields(methodSel.value || 'card');
+      });
+    }
+    addPayForm.addEventListener('submit',(e)=>{
+      e.preventDefault();
+      const methods = loadStore(STORAGE_KEYS.payments, []);
+      const isDefault = !methods.length;
+      const selected = (document.getElementById('paymentMethod')?.value) || 'card';
+      let entry = null;
+      if (selected === 'card'){
+        const name = document.getElementById('cardName')?.value.trim() || '';
+        const number = (document.getElementById('cardNumber')?.value || '').replace(/\D/g,'');
+        const expiry = document.getElementById('cardExpiry')?.value.trim() || '';
+        const brand = document.getElementById('cardBrand')?.value || 'Card';
+        const last4 = number.slice(-4) || '0000';
+        entry = { id:'pm_'+Date.now(), method:'card', brand, last4, name, expiry, isDefault };
+      } else if (selected === 'paypal'){
+        const email = document.getElementById('ppEmail')?.value.trim() || '';
+        entry = { id:'pm_'+Date.now(), method:'paypal', email, isDefault };
+      } else if (selected === 'applePay'){
+        entry = { id:'pm_'+Date.now(), method:'applePay', isDefault };
+      } else if (selected === 'googlePay'){
+        entry = { id:'pm_'+Date.now(), method:'googlePay', isDefault };
+      } else if (selected === 'bank'){
+        const bankName = document.getElementById('bankName')?.value.trim() || '';
+        const holder = document.getElementById('bankHolder')?.value.trim() || '';
+        const iban = document.getElementById('bankIban')?.value.trim() || '';
+        const accountLast4 = iban.replace(/\s/g,'').slice(-4) || '0000';
+        entry = { id:'pm_'+Date.now(), method:'bank', bankName, holder, accountLast4, isDefault };
+      } else if (selected === 'cash'){
+        const phone = document.getElementById('cashPhone')?.value.trim() || '';
+        entry = { id:'pm_'+Date.now(), method:'cash', phone, isDefault };
+      }
+      if (!entry){ showNotification('error','Select a payment method.'); return; }
+      methods.push(entry);
+      saveStore(STORAGE_KEYS.payments, methods);
+      renderPaymentsList();
+      if (document.getElementById('paymentMethod')){
+        document.getElementById('paymentMethod').value = 'card';
+        renderPaymentFields('card');
+      }
+      showNotification('success','Payment method added.');
+    });
+  }
+  // Advanced payment method buttons
+  document.querySelectorAll('[data-add-pay]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const method = btn.getAttribute('data-add-pay') || 'paypal';
+      // If the dynamic form exists (older UI), prefer that; otherwise render inline details
+      if (typeof renderPaymentFields === 'function' && document.getElementById('paymentMethod')){
+        const methodSel = document.getElementById('paymentMethod');
+        methodSel.value = method;
+        renderPaymentFields(method);
+        methodSel.scrollIntoView({behavior:'smooth', block:'center'});
+      } else {
+        // New simplified UI: show method constraints/details panel
+        renderMethodDetails(method);
+      }
+    });
+  });
+  // logout/delete
+  const btnLogout = document.getElementById('btnLogout');
+  if (btnLogout){
+    btnLogout.addEventListener('click', ()=>{
+      localStorage.removeItem(STORAGE_KEYS.user);
+      clearAuth();
+      showNotification('success','Logged out.');
+      renderNavUserArea();
+      setTimeout(()=> window.location.href='index.html', 600);
+    });
+  }
+  const btnDelete = document.getElementById('btnDeleteAccount');
+  if (btnDelete){
+    btnDelete.addEventListener('click', ()=>{
+      if (!confirm('Delete your account and all data? This cannot be undone.')) return;
+      localStorage.removeItem(STORAGE_KEYS.user);
+      localStorage.removeItem(STORAGE_KEYS.bookings);
+      localStorage.removeItem(STORAGE_KEYS.notifications);
+      localStorage.removeItem(STORAGE_KEYS.payments);
+      clearAuth();
+      showNotification('success','Account deleted.');
+      renderNavUserArea();
+      setTimeout(()=> window.location.href='index.html', 800);
+    });
+  }
+});

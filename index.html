@@ -54,20 +54,49 @@
               </li>
             </ul>
             <ul class="navbar-nav ms-auto align-items-center">
-              <li class="nav-item me-2">
+              <li class="nav-item me-2" id="navLoginItem">
                 <a class="nav-link-auth" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">
                   Login
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" id="navSignupItem">
                 <a class="btn btn-signup" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">
                   Sign Up
                 </a>
               </li>
+              <li class="nav-item ms-2" id="navUserArea"></li>
             </ul>
           </div>
         </div>
       </nav>
+      <!-- User Offcanvas Drawer -->
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="navUserDrawer" aria-labelledby="navUserDrawerLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title d-flex align-items-center gap-2" id="navUserDrawerLabel">
+            <img id="drawerAvatar" src="https://i.pravatar.cc/80?img=13" alt="Avatar" width="36" height="36" class="rounded-circle">
+            <span id="drawerName">User</span>
+          </h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <div class="list-group">
+            <a href="dashboard.html" class="list-group-item list-group-item-action d-flex align-items-center">
+              <i class="bi bi-person-circle me-2"></i> My Profile
+            </a>
+            <a href="#" id="drawerOpenSettings" class="list-group-item list-group-item-action d-flex align-items-center">
+              <i class="bi bi-gear me-2"></i> Account Settings
+            </a>
+            <a href="dashboard.html#secNotifications" class="list-group-item list-group-item-action d-flex align-items-center">
+              <i class="bi bi-bell me-2"></i> Notifications
+            </a>
+            <a href="dashboard.html?open=settings&tab=payments" class="list-group-item list-group-item-action d-flex align-items-center">
+              <i class="bi bi-credit-card-2-front me-2"></i> Payment Methods
+            </a>
+          </div>
+          <hr>
+          <button class="btn btn-outline-danger w-100" type="button" onclick="logoutUser()">Logout</button>
+        </div>
+      </div>
       <section class="hero-section">
         <div class="hero-overlay">
         </div>
@@ -353,110 +382,7 @@
           </div>
         </div>
       </section>
-      <section class="testimonials-section py-5 bg-light">
-        <div class="container py-5">
-          <div class="text-center mb-5">
-            <h2 class="testimonials-title">
-              What Travelers Say
-            </h2>
-            <p class="testimonials-subtitle">
-              Real stories from real adventurers
-            </p>
-          </div>
-          <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-              <div class="testimonial-card-new">
-                <div class="testimonial-header">
-                  <img src="https://i.pravatar.cc/60?img=1" alt="Sarah Johnson" class="testimonial-avatar" loading="lazy">
-                  <div class="testimonial-info">
-                    <h5 class="testimonial-name">
-                      Sarah Johnson
-                    </h5>
-                    <p class="testimonial-location">
-                      United States
-                    </p>
-                  </div>
-                </div>
-                <div class="testimonial-rating">
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                </div>
-                <p class="testimonial-text">
-                  "StayEase showed me Egypt beyond the tourist traps. The local hosts made all the difference!"
-                </p>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="testimonial-card-new">
-                <div class="testimonial-header">
-                  <img src="https://i.pravatar.cc/60?img=12" alt="Marco Silva" class="testimonial-avatar" loading="lazy">
-                  <div class="testimonial-info">
-                    <h5 class="testimonial-name">
-                      Marco Silva
-                    </h5>
-                    <p class="testimonial-location">
-                      Brazil
-                    </p>
-                  </div>
-                </div>
-                <div class="testimonial-rating">
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                </div>
-                <p class="testimonial-text">
-                  "The diving experience in Dahab was incredible. Perfectly organized and safe!"
-                </p>
-              </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-              <div class="testimonial-card-new">
-                <div class="testimonial-header">
-                  <img src="https://i.pravatar.cc/60?img=5" alt="Emma Thompson" class="testimonial-avatar" loading="lazy">
-                  <div class="testimonial-info">
-                    <h5 class="testimonial-name">
-                      Emma Thompson
-                    </h5>
-                    <p class="testimonial-location">
-                      United Kingdom
-                    </p>
-                  </div>
-                </div>
-                <div class="testimonial-rating">
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                  <i class="bi bi-star-fill">
-                  </i>
-                </div>
-                <p class="testimonial-text">
-                  "From Cairo to Aswan, every moment was magical. Egypt truly stole my heart!"
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- Testimonials removed for backend-driven content -->
       <section class="cta-dual-section py-5 bg-white">
         <div class="container py-5">
           <div class="row g-4">
@@ -695,6 +621,20 @@
             </div>
             <div class="modal-body px-4 pb-4">
               <form id="signupForm">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="signupFirstName" class="form-label">
+                      First Name
+                    </label>
+                    <input type="text" class="form-control" id="signupFirstName" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="signupLastName" class="form-label">
+                      Last Name
+                    </label>
+                    <input type="text" class="form-control" id="signupLastName" required>
+                  </div>
+                </div>
                 <div class="mb-3">
                   <label for="signupName" class="form-label">
                     Full Name
@@ -706,6 +646,60 @@
                     Email Address
                   </label>
                   <input type="email" class="form-control" id="signupEmail" required>
+                </div>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="signupPhone" class="form-label">
+                      Phone
+                    </label>
+                    <input type="tel" class="form-control" id="signupPhone">
+                  </div>
+                  <div class="col-md-6">
+                    <label for="signupNationality" class="form-label">
+                      Nationality
+                    </label>
+                    <input type="text" class="form-control" id="signupNationality">
+                  </div>
+                </div>
+                <div class="row g-3 mt-0">
+                  <div class="col-md-6">
+                    <label for="signupDOB" class="form-label">
+                      Date of Birth
+                    </label>
+                    <input type="date" class="form-control" id="signupDOB">
+                  </div>
+                  <div class="col-md-3">
+                    <label for="signupGender" class="form-label">
+                      Gender
+                    </label>
+                    <select id="signupGender" class="form-select">
+                      <option value="">
+                        Select
+                      </option>
+                      <option value="Male">
+                        Male
+                      </option>
+                      <option value="Female">
+                        Female
+                      </option>
+                      <option value="Other">
+                        Other
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="signupRole" class="form-label">
+                      Role
+                    </label>
+                    <select id="signupRole" class="form-select" required>
+                      <option value="Traveler" selected>
+                        Traveler
+                      </option>
+                      <option value="Host">
+                        Host
+                      </option>
+                    </select>
+                  </div>
                 </div>
                 <div class="mb-3">
                   <label for="signupPassword" class="form-label">

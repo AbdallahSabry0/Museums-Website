@@ -352,6 +352,26 @@ img {
   transition:width 0.3s ease
 }
 
+/* Authenticated user pill (top-right avatar) */
+.nav-user-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.25rem .5rem;
+  border:1px solid var(--border-color);
+  border-radius:999px;
+  background:#fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+.nav-user-pill .nav-user-burger{
+  width:28px;height:28px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;color:#374151;
+}
+.nav-user-pill img{
+  width:32px;height:32px;border-radius:999px;object-fit:cover;
+}
+
 .nav-link-auth {
   color:#4b5563 !important;
   font-weight:500;
