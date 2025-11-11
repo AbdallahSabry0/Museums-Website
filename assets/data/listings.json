@@ -1,0 +1,82 @@
+[
+  {
+    "id": "cairo-apartment",
+    "title": "Modern Apartment with View",
+    "location": "Cairo, Egypt",
+    "beds": 2,
+    "baths": 1,
+    "guests": 3,
+    "price": 189,
+    "rating": 4.9,
+    "images": ["assets/photos/cairo.png", "assets/photos/luxor.png", "assets/photos/aswan.png"],
+    "amenities": ["WiFi", "Kitchen", "Air conditioning", "Parking"],
+    "summary": "Bright modern apartment overlooking the Nile and the city skyline."
+  },
+  {
+    "id": "alexandria-studio",
+    "title": "Cozy Studio by the Sea",
+    "location": "Alexandria, Egypt",
+    "beds": 1,
+    "baths": 1,
+    "guests": 2,
+    "price": 125,
+    "rating": 4.7,
+    "images": ["assets/photos/alexandria.png", "assets/photos/dahab.png"],
+    "amenities": ["WiFi", "Kitchen", "Balcony"],
+    "summary": "Charming studio steps from the Mediterranean with a sunny balcony."
+  },
+  {
+    "id": "luxor-loft",
+    "title": "Elegant Loft in Luxor",
+    "location": "Luxor, Egypt",
+    "beds": 3,
+    "baths": 2,
+    "guests": 5,
+    "price": 275,
+    "rating": 4.8,
+    "images": ["assets/photos/luxor.png", "assets/photos/Hot Air Balloon over Luxor.png"],
+    "amenities": ["WiFi", "AC"],
+    "summary": "Stylish loft minutes from ancient temples with rooftop views."
+  },
+  {
+    "id": "aswan-nile-flat",
+    "title": "Nile View Flat",
+    "location": "Aswan, Egypt",
+    "beds": 2,
+    "baths": 1,
+    "guests": 4,
+    "price": 165,
+    "rating": 4.6,
+    "images": ["assets/photos/aswan.png"],
+    "amenities": ["WiFi", "Balcony"],
+    "summary": "Relaxing flat with sweeping Nile views and nearby felucca rides."
+  },
+  {
+    "id": "dahab-penthouse",
+    "title": "Luxury Penthouse with Terrace",
+    "location": "Dahab, Egypt",
+    "beds": 4,
+    "baths": 3,
+    "guests": 7,
+    "price": 450,
+    "rating": 5.0,
+    "images": ["assets/photos/dahab.png", "assets/photos/Red Sea Diving in Dahab.png"],
+    "amenities": ["WiFi", "Pool", "Parking"],
+    "summary": "High-end penthouse with panoramic Red Sea terrace and private pool."
+  },
+  {
+    "id": "siwa-bohemian",
+    "title": "Artistic Bohemian Space",
+    "location": "Siwa Oasis, Egypt",
+    "beds": 1,
+    "baths": 1,
+    "guests": 2,
+    "price": 135,
+    "rating": 4.5,
+    "images": ["assets/photos/siwa.png"],
+    "amenities": ["WiFi", "Kitchen"],
+    "summary": "Cozy boho home near palm groves and salt lakes—perfect for unplugging."
+  }
+]
+
+

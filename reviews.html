@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase — Reviews</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="index.html">
+          <div class="brand-logo"><i class="bi bi-compass-fill"></i></div>
+          <span class="brand-text ms-2">StayEase</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto align-items-center">
+            <li class="nav-item"><a class="nav-link" href="stays.html">Experiences</a></li>
+            <li class="nav-item"><a class="nav-link" href="#destinations">Destinations</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#becomeHostModal">Become a Host</a></li>
+            <li class="nav-item"><a class="nav-link active" href="reviews.html">Reviews</a></li>
+          </ul>
+          <ul class="navbar-nav ms-auto align-items-center">
+            <li class="nav-item me-2" id="navLoginItem"><a class="nav-link-auth" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+            <li class="nav-item" id="navSignupItem"><a class="btn btn-signup" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign Up</a></li>
+            <li class="nav-item ms-2" id="navUserArea"></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="reviews-wrapper">
+      <div class="container">
+        <a href="dashboard.html" class="text-decoration-none d-inline-flex align-items-center mb-3 small text-muted">
+          <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
+        </a>
+        <h1 class="display-6 fw-bold mb-4">Share Your Experience</h1>
+        <p class="text-muted mb-4">Your review helps other guests make informed decisions and helps hosts improve their service.</p>
+
+        <!-- Trip / property summary -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body d-flex gap-3 align-items-center">
+            <img src="assets/photos/luxor.png" alt="Listing" class="rounded object-fit-cover" style="width:96px;height:72px">
+            <div class="flex-grow-1">
+              <div class="fw-semibold">Luxury Downtown Loft</div>
+              <div class="small text-muted"><i class="bi bi-calendar3 me-1"></i> Dec 15 - Dec 22, 2024 · 7 nights</div>
+              <div class="small text-muted"><i class="bi bi-person-circle me-1"></i> Hosted by Sarah Mitchell</div>
+            </div>
+            <div class="text-end d-none d-md-block">
+              <span class="badge bg-primary-subtle text-primary-emphasis">Demo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overall rating -->
+        <section class="mb-4">
+          <h5 class="fw-semibold mb-2">Overall Rating</h5>
+          <div class="reviews-stars" data-target-input="#overallRating">
+            <button type="button" aria-label="1 star"><i class="bi bi-star"></i></button>
+            <button type="button" aria-label="2 stars"><i class="bi bi-star"></i></button>
+            <button type="button" aria-label="3 stars"><i class="bi bi-star"></i></button>
+            <button type="button" aria-label="4 stars"><i class="bi bi-star"></i></button>
+            <button type="button" aria-label="5 stars"><i class="bi bi-star"></i></button>
+            <span class="small text-muted ms-2" id="overallHint">Select a rating</span>
+          </div>
+          <input type="hidden" id="overallRating" value="0">
+        </section>
+
+        <!-- Category ratings -->
+        <section class="mb-4">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>Cleanliness</span>
+                <div class="reviews-stars" data-target-input="#rateClean"><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button></div>
+              </div><input type="hidden" id="rateClean" value="0">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>Communication</span>
+                <div class="reviews-stars" data-target-input="#rateComm"><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button></div>
+              </div><input type="hidden" id="rateComm" value="0">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>Check-in</span>
+                <div class="reviews-stars" data-target-input="#rateCheckin"><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button></div>
+              </div><input type="hidden" id="rateCheckin" value="0">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>Accuracy</span>
+                <div class="reviews-stars" data-target-input="#rateAcc"><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button></div>
+              </div><input type="hidden" id="rateAcc" value="0">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>Location</span>
+                <div class="reviews-stars" data-target-input="#rateLoc"><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button></div>
+              </div><input type="hidden" id="rateLoc" value="0">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center justify-content-between">
+                <span>Value</span>
+                <div class="reviews-stars" data-target-input="#rateVal"><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button><button type="button"><i class="bi bi-star"></i></button></div>
+              </div><input type="hidden" id="rateVal" value="0">
+            </div>
+          </div>
+        </section>
+
+        <!-- Text review -->
+        <section class="mb-4">
+          <h5 class="fw-semibold mb-2">Your Review</h5>
+          <textarea id="reviewText" class="form-control" rows="6" placeholder="What did you love about this place? How was your experience with the host? Any tips for future guests?"></textarea>
+          <div class="d-flex justify-content-between small mt-1 text-muted">
+            <span>Minimum 50 characters</span>
+            <span><span id="charCount">0</span> / 1000</span>
+          </div>
+        </section>
+
+        <!-- Photos -->
+        <section class="mb-4">
+          <h5 class="fw-semibold mb-2">Add Photos <span class="text-muted small">(Optional)</span></h5>
+          <label class="reviews-uploader w-100">
+            <input type="file" id="photoInput" accept="image/*" multiple hidden>
+            <div class="reviews-uploader-box">
+              <div class="text-center">
+                <div class="reviews-uploader-icon"><i class="bi bi-camera"></i></div>
+                <div class="fw-semibold">Upload photos</div>
+                <div class="text-muted small">Drag and drop or click to browse</div>
+                <div class="text-muted small">Maximum 10 photos, 5MB each</div>
+              </div>
+            </div>
+          </label>
+          <div id="photoPreview" class="d-flex flex-wrap gap-2 mt-2"></div>
+        </section>
+
+        <!-- Actions -->
+        <div class="d-flex align-items-center justify-content-between">
+          <a href="dashboard.html" class="text-decoration-none">Skip for Now</a>
+          <div class="d-flex gap-2">
+            <a href="dashboard.html" class="btn btn-outline-secondary">Cancel</a>
+            <button id="submitReview" class="btn btn-primary">Submit Review <i class="bi bi-check2 ms-1"></i></button>
+          </div>
+        </div>
+
+        <!-- Guidelines -->
+        <div class="card border-0 shadow-sm mt-4">
+          <div class="card-body">
+            <h6 class="fw-semibold mb-2"><i class="bi bi-lightbulb me-2 text-primary"></i>Review Guidelines</h6>
+            <ul class="mb-0 text-muted small">
+              <li>Be honest and constructive in your feedback</li>
+              <li>Focus on your personal experience at the property</li>
+              <li>Avoid personal attacks or offensive language</li>
+              <li>Your review will be visible to other guests after submission</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer-new mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <div class="footer-brand mb-4">
+              <div class="footer-logo"><i class="bi bi-compass-fill"></i></div>
+              <span class="footer-brand-text">StayEase</span>
+            </div>
+            <p class="footer-description">Discover Egypt like never before with authentic local experiences and trusted hosts.</p>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="footer-heading">About StayEase</h5>
+            <ul class="footer-links">
+              <li><a href="#how-it-works">How it works</a></li>
+              <li><a href="#about">Our story</a></li>
+              <li><a href="#safety">Safety</a></li>
+              <li><a href="#community">Community</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="footer-heading">Explore Egypt</h5>
+            <ul class="footer-links">
+              <li><a href="stays.html#destinations">Cairo</a></li>
+              <li><a href="stays.html#destinations">Luxor</a></li>
+              <li><a href="stays.html#destinations">Aswan</a></li>
+              <li><a href="stays.html#destinations">Red Sea</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+            <h5 class="footer-heading">Help & Support</h5>
+            <ul class="footer-links">
+              <li><a href="#help">Help Center</a></li>
+              <li><a href="#contact">Contact Us</a></li>
+              <li><a href="#terms">Terms of Service</a></li>
+              <li><a href="#privacy">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+              <p class="footer-copyright mb-0">© 2025 StayEase – Explore Egypt, Feel at Home.</p>
+            </div>
+            <div class="col-md-6">
+              <div class="footer-social">
+                <a href="#" class="footer-social-link" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="footer-social-link" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="footer-social-link" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
+
+

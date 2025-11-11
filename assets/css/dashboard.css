@@ -1,0 +1,109 @@
+.dashboard-wrapper{
+  padding-top:96px;
+  padding-bottom:48px;
+  background:var(--light-color);
+  min-height:100vh;
+}
+.dash-sidebar .list-group-item{
+  border:0;
+  padding:.9rem 1rem;
+  display:flex;
+  align-items:center;
+  color:var(--text-primary);
+  background:transparent;
+}
+.dash-sidebar .list-group-item .dash-icon{
+  width:36px;height:36px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  margin-right:.5rem;
+  border:2px solid rgba(0,0,0,.08);
+  color:var(--text-secondary);
+  background:#fff;
+}
+.dash-sidebar .list-group-item:hover{
+  background:#f3f4f6;
+}
+.dash-sidebar .list-group-item.active{
+  background:linear-gradient(0deg, rgba(245,158,11,.12), rgba(245,158,11,.12));
+  color:var(--text-primary);
+  font-weight:600;
+}
+.dash-sidebar .list-group-item.active .dash-icon{
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  background: #fff;
+}
+.dash-menu{ padding:.5rem; }
+.dash-menu .list-group-item{ border-radius:.75rem; margin:.2rem 0; }
+.dash-menu .list-group-item{ cursor:pointer; }
+.dash-menu .list-group-item:focus{ outline:2px solid var(--primary-color); }
+.booking-item .booking-image{
+  width:220px;
+  height:140px;
+  object-fit:cover;
+}
+@media (max-width:767px){
+  .booking-item .booking-image{ width:100%; height:180px; }
+}
+.status-badge{
+  padding:.35rem .6rem;
+  border-radius:.5rem;
+  font-size:.75rem;
+  font-weight:600;
+}
+.status-badge.success{ background:rgba(16,185,129,.15); color:#059669; }
+.status-badge.warning{ background:rgba(245,158,11,.15); color:#b45309; }
+.past-card{
+  border:1px solid var(--border-color);
+  border-radius:1rem;
+  overflow:hidden;
+  background:#fff;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.past-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+}
+.past-card img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+}
+.past-content{ padding:1rem; }
+.rating{ color:#f59e0b; font-weight:600; }
+
+.notif-item{
+  display:flex;
+  align-items:start;
+  gap:.75rem;
+  padding:.75rem 0;
+  border-bottom:1px solid var(--border-color);
+}
+.notif-item:last-child{ border-bottom:0; }
+.notif-icon{
+  width:36px;height:36px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+}
+.notif-icon.success{ background:rgba(16,185,129,.15); color:#059669;}
+.notif-icon.info{ background:rgba(37,99,235,.15); color:#2563eb;}
+.notif-icon.warning{ background:rgba(245,158,11,.15); color:#b45309;}
+
+/* Payments - logos/badges */
+.pay-logo{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:6px;
+  font-weight:700;font-size:.8rem;
+  line-height:1;color:#fff;
+}
+.pay-logo.pp{ background:#003087; }
+.pay-logo.ap{ background:#000; font-size:1rem; }
+.pay-logo.gp{ background:#1a73e8; }
+.pay-logo.bank{ background:#334155; font-size:.9rem; }
+.pay-logo.cash{ background:#059669; font-size:.9rem; }
+.pay-method-chip{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.25rem .5rem;border-radius:.5rem;
+  background:#f1f5f9;font-weight:600;font-size:.75rem;
+}
+
+

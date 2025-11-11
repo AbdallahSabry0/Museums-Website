@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Confirm your StayEase booking. Review stay details, dates, guests and total price.">
+      <title>
+        StayEase - Booking Confirmation
+      </title>
+      <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="assets/css/styles.css">
+    </head>
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+          <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <div class="brand-logo">
+              <i class="bi bi-compass-fill">
+              </i>
+            </div>
+            <span class="brand-text ms-2">
+              StayEase
+            </span>
+          </a>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+            </span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+              <li class="nav-item me-2" id="navLoginItem">
+                <a class="nav-link" href="index.html?modal=login">
+                  Login
+                </a>
+              </li>
+              <li class="nav-item" id="navSignupItem">
+                <a class="btn btn-signup" href="index.html?modal=signup">
+                  Sign Up
+                </a>
+              </li>
+              <li class="nav-item ms-2" id="navUserArea"></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section class="pt-4" style="margin-top:72px;">
+        <div class="container">
+          <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb small">
+              <li class="breadcrumb-item">
+                <a href="index.html" class="text-decoration-none">
+                  Home
+                </a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="stays.html" class="text-decoration-none">
+                  Listings
+                </a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Booking Confirmation
+              </li>
+            </ol>
+          </nav>
+          <h1 class="h3 mb-2">
+            Confirm Your Booking
+          </h1>
+          <p class="text-muted mb-0">
+            Review your booking details before confirmation
+          </p>
+        </div>
+      </section>
+      <section class="py-4">
+        <div class="container">
+          <div class="row g-4">
+            <div class="col-lg-8">
+              <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                  <h5 class="mb-3">
+                    Property Details
+                  </h5>
+                  <div class="d-flex gap-3">
+                    <img id="sumThumb" src="assets/photos/alexandria.png" alt="Listing" class="rounded-3" style="width:140px;height:100px;object-fit:cover;">
+                    <div class="flex-grow-1">
+                      <h6 id="sumTitle" class="mb-1">
+                        ...
+                      </h6>
+                      <div id="sumLocation" class="text-muted small mb-1">
+                        <i class="bi bi-geo-alt me-1">
+                        </i>
+                        ...
+                      </div>
+                      <div id="sumMeta" class="text-muted small d-flex flex-wrap gap-3">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                  <h5 class="mb-3">
+                    Booking Details
+                  </h5>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="border rounded-3 p-3">
+                        <div class="text-muted small mb-1">
+                          Check-in
+                        </div>
+                        <div id="sumCheckin" class="fw-semibold">
+                          —
+                        </div>
+                        <div class="small text-muted">
+                          After 3:00 PM
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="border rounded-3 p-3">
+                        <div class="text-muted small mb-1">
+                          Check-out
+                        </div>
+                        <div id="sumCheckout" class="fw-semibold">
+                          —
+                        </div>
+                        <div class="small text-muted">
+                          Before 11:00 AM
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="border rounded-3 p-3">
+                        <div class="text-muted small mb-1">
+                          Guests
+                        </div>
+                        <div id="sumGuestsText" class="fw-semibold">
+                          —
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                  <h5 class="mb-3">
+                    Cancellation Policy
+                  </h5>
+                  <div class="d-flex align-items-start">
+                    <i class="bi bi-shield-check text-success me-3 fs-5">
+                    </i>
+                    <div>
+                      <div class="fw-semibold">
+                        Flexible Cancellation
+                      </div>
+                      <div class="text-muted small">
+                        Free cancellation until Dec 13, 2024. Partial refund before check-in.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                  <h5 class="mb-3">
+                    House Rules
+                  </h5>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center">
+                        <i class="bi bi-clock me-2">
+                        </i>
+                        Check-in: After 3:00 PM
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center">
+                        <i class="bi bi-clock-history me-2">
+                        </i>
+                        Check-out: Before 11:00 AM
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center">
+                        <i class="bi bi-slash-circle me-2">
+                        </i>
+                        No smoking
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center">
+                        <i class="bi bi-suit-heart me-2">
+                        </i>
+                        Pets allowed
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="d-flex align-items-center">
+                        <i class="bi bi-music-note-beamed me-2">
+                        </i>
+                        No parties or events
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card border-0 shadow-sm sticky-lg-top" style="top:100px;">
+                <div class="card-body">
+                  <h5 class="mb-3">
+                    Price Summary
+                  </h5>
+                  <div class="mb-3">
+                    <label class="form-label small">
+                      Guests
+                    </label>
+                    <select id="sumGuests" class="form-select form-select-sm">
+                      <option value="1">
+                        1 guest
+                      </option>
+                      <option value="2">
+                        2 guests
+                      </option>
+                      <option value="3">
+                        3 guests
+                      </option>
+                      <option value="4">
+                        4 guests
+                      </option>
+                      <option value="5">
+                        5 guests
+                      </option>
+                      <option value="6">
+                        6 guests
+                      </option>
+                      <option value="7">
+                        7 guests
+                      </option>
+                      <option value="8">
+                        8 guests
+                      </option>
+                      <option value="9">
+                        9 guests
+                      </option>
+                      <option value="10">
+                        10 guests
+                      </option>
+                    </select>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span id="sumLine">
+                      $0 × 0 nights
+                    </span>
+                    <span id="sumBase">
+                      $0
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span>
+                      Service fee
+                    </span>
+                    <span id="sumService">
+                      $0
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>
+                      Cleaning fee
+                    </span>
+                    <span id="sumCleaning">
+                      $0
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between border-top pt-2 fw-semibold">
+                    <span>
+                      Total (USD)
+                    </span>
+                    <span id="sumTotal">
+                      $0
+                    </span>
+                  </div>
+                  <a id="confirmBtn" href="#" class="btn btn-primary w-100 mt-3">
+                    Confirm Booking
+                  </a>
+                  <a id="backToListing" href="property.html" class="btn btn-outline-secondary w-100 mt-2">
+                    <i class="bi bi-arrow-left me-2">
+                    </i>
+                    Back to Listing
+                  </a>
+                  <div class="border rounded-3 p-3 mt-3">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-shield-lock me-2 text-success">
+                      </i>
+                      <div class="fw-semibold">
+                        Secure Payment
+                      </div>
+                    </div>
+                    <p class="text-muted small mb-0">
+                      Your payment information is encrypted.
+                    </p>
+                  </div>
+                  <div class="border rounded-3 p-3 mt-3">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="bi bi-headset me-2 text-info">
+                      </i>
+                      <div class="fw-semibold">
+                        24/7 Support
+                      </div>
+                    </div>
+                    <p class="text-muted small mb-0">
+                      We're here to help anytime.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <footer class="footer-new">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <div class="footer-brand mb-4">
+                <div class="footer-logo">
+                  <i class="bi bi-compass-fill">
+                  </i>
+                </div>
+                <span class="footer-brand-text">
+                  StayEase
+                </span>
+              </div>
+              <p class="footer-description">
+                Discover Egypt like never before with authentic local experiences and trusted hosts.
+              </p>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <h5 class="footer-heading">
+                About StayEase
+              </h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="index.html#how-it-works">
+                    How it works
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#about">
+                    Our story
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#safety">
+                    Safety
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#community">
+                    Community
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <h5 class="footer-heading">
+                Explore Egypt
+              </h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="index.html#destinations">
+                    Cairo
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#destinations">
+                    Luxor
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#destinations">
+                    Aswan
+                  </a>
+                </li>
+                <li>
+                  <a href="index.html#destinations">
+                    Red Sea
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <h5 class="footer-heading">
+                Help & Support
+              </h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="#help">
+                    Help Center
+                  </a>
+                </li>
+                <li>
+                  <a href="#contact">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#terms">
+                    Terms of Service
+                  </a>
+                </li>
+                <li>
+                  <a href="#privacy">
+                    Privacy Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <div class="row align-items-center">
+              <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                <p class="mb-0">
+                  © 2025 StayEase – Explore Egypt, Feel at Home.
+                </p>
+              </div>
+              <div class="col-md-6">
+                <div class="footer-social">
+                  <a href="#" class="footer-social-link" aria-label="Facebook">
+                    <i class="bi bi-facebook">
+                    </i>
+                  </a>
+                  <a href="#" class="footer-social-link" aria-label="Instagram">
+                    <i class="bi bi-instagram">
+                    </i>
+                  </a>
+                  <a href="#" class="footer-social-link" aria-label="TikTok">
+                    <i class="bi bi-tiktok">
+                    </i>
+                  </a>
+                  <a href="#" class="footer-social-link" aria-label="Settings">
+                    <i class="bi bi-gear">
+                    </i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+      <script src="assets/js/bootstrap.bundle.min.js">
+      </script>
+      <script src="assets/js/main.js">
+      </script>
+    </body>
+  </html>
